@@ -1,0 +1,74 @@
+# Implementation Plan: Monassist Native SwiftUI App with Liquid Glass Design
+
+This plan outlines the implementation of a 100% native iOS SwiftUI version of the Monassist app, completely eliminating Flutter while preserving and enhancing the backend integration and visual assets. The app utilizes iOS 26 Liquid Glass styling guidelines to deliver a state-of-the-art, premium user interface.
+
+## 1. Project Architecture
+
+The app will follow a clean, modular MVVM architecture:
+
+```mermaid
+graph TD
+    App[MonassistNativeApp] --> RootView[RootViewSwitcher]
+    RootView --> Onboarding[OnboardingView]
+    RootView --> Auth[AuthView]
+    RootView --> MainTab[MainTabView]
+    
+    MainTab --> Home[HomeView]
+    MainTab --> Transactions[TransactionHistoryView]
+    MainTab --> AIChat[AIChatView]
+    MainTab --> Settings[SettingsView]
+    
+    Home --> TransactionVM[TransactionViewModel]
+    Transactions --> TransactionVM
+    AIChat --> AIVM[AIViewModel]
+    Auth --> AuthVM[AuthViewModel]
+    Settings --> SettingsVM[SettingsViewModel]
+    
+    TransactionVM --> TransactionService[TransactionService]
+    AIVM --> AIService[AIService]
+    AuthVM --> AuthService[AuthService]
+    
+    TransactionService --> APIService[APIService]
+    AIService --> APIService
+    AuthService --> APIService
+    
+    APIService --> Backend[https://monassist.vercel.app/api]
+```
+
+## 2. Technical Stack
+- **Language**: Swift 6
+- **UI Framework**: SwiftUI (iOS 26+ optimized)
+- **Networking**: native `URLSession` + Swift Concurrency (`async/await`)
+- **Aesthetics**: iOS 26 Liquid Glass (`.glassEffect()`, custom shapes, tints, dynamic transitions, and `GlassEffectContainer` for morphing)
+- **Assets**: 3D icons, welcoming graphics, and custom category symbols
+
+## 3. Implementation Roadmap
+
+### Phase 1: Models & Networking Services
+Create models and network wrappers matching the Flutter API precisely:
+1. `APIService`: Custom API client handling token authorization, multipart uploads, and error handling.
+2. `Models`: `UserModel`, `TransactionModel`, `CategoryModel` matching JSON keys.
+3. `Services`: `AuthService`, `TransactionService`, `CategoryService`, `AIService`, and `TelegramService`.
+
+### Phase 2: Root Composition & State Machine
+1. `@main` App struct.
+2. `RootViewSwitcher`: Dynamic root router with smooth transitions for Onboarding, Auth, and MainApp.
+3. `AuthViewModel`: App-wide authentication provider.
+
+### Phase 3: Premium UI Views with Liquid Glass Styling
+1. `OnboardingView`: Carousel of welcome cards (`onboarding_wallet.png`, etc.) using glass navigation overlays.
+2. `AuthView`: Modern glassy card layout with glowing backgrounds, haptic cues, and organic validation.
+3. `MainTabView`: Bottom-tab container with glassy toolbars.
+4. `HomeView`: Core dashboard showcasing:
+   - Beautiful visual balance card with glass specular highlights.
+   - Pinned transaction list with morphing liquid headers.
+   - Quick-action modal forms.
+5. `TransactionHistoryView`: Pinned lists, filter popovers, search, and page transition effects.
+6. `AIChatView`: Assistant screen with speech bubbles encased in Liquid Glass containers, supporting camera/receipt parsing.
+7. `SettingsView`: User Profile, Telegram Pairing Code generator, and security controls.
+
+### Phase 4: Dynamic Liquid Glass Transitions
+Implement a breathtaking custom screen animation displaying organic morphing and glass refraction using Swift's spring animations and `.glassEffect()`.
+
+### Phase 5: Xcode Project Auto-Generator
+Create `generate_xcodeproj.py` inside the native project root to bundle all files and generate a compilation-ready workspace.

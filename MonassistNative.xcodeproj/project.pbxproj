@@ -1,0 +1,426 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = { };
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7BC9F116F991515FB6BEF640 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC1E3D152B8050798ECAA563; };
+		0C5DC6A7FF5A5CCF915AA236 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 964E55635408531FBA74EE2F; };
+		7CEC5DA58B445A7289D40B2B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0062817BE3BC5628BD2C77D9; };
+		E32E36D537945FD1AC4CCBED /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2488AAD4751A568DAA0C87C0; };
+		1A07E4B3798B5EC08472DD55 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF150AA91EBF57918EDE17CB; };
+		D4138E3E052C5AFC8829DA11 /* Observation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD7E182270A58F98B3EE9DA; };
+		9B66C3194A2C534C9D15A1D3 /* MonassistNativeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A83E8FC31C5DDEA440382C; };
+		A3CC91196EDC530FB64D02C6 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E864C53E75CA6B0CC0BA1; };
+		C350B3D2BD665EB9A8DAA7B5 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1145A0F71582AB30A24F5; };
+		47FD43A144A55479999B999D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8AFE4B7D825BFF8CF0EF2B; };
+		BF42A2E440CB52AD82F53E8C /* AIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B5E7CC8FA4C536F837DC457; };
+		B12E11D840B35402938A6038 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901C21DD13AB5546849B9772; };
+		EA1786621DB55400B6FED5BC /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3403A6DEFBC537BB6B2E054; };
+		F072C896BBD3574BB9EEA34F /* CategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D833EDD918D950A290B1F4F4; };
+		4603C9786166538FBFC5AD1D /* TelegramService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973122D7059E522CA3F8DD50; };
+		55698A95A92C57D990CB14E4 /* TransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275A33C6757C5151AFACE737; };
+		A7BF43DA48C9529781AF69FA /* AIChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BCBCD703775C6EA69CDB8F; };
+		CEBF11D8277A5F18B4FEFDAE /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F101B5BA227565EA85E00D0; };
+		D695DCF7AA5B5F8CBCD2D96C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660645EBCF755CC5906FB99A; };
+		5386638D5366521F96D79ECB /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED1313BF7EC58CC95DA875C; };
+		03E1FD6B5254561AA94EB74C /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E918CD210425ED1855F3C9C; };
+		3B421F41073B585690B20865 /* RootViewSwitcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0842BEF62A955D96AF5CC457; };
+		C89A47AFB6375FECAF98F2A5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C7644F84445422896C8B87; };
+		C0375CB9D8385747BF1AF38A /* TransactionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B1442570FE5A44A798A97F; };
+		E1ED5365EA355C54A960ED18 /* AIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D72C4643A6F5C9CA4D594EF; };
+		006F1113F34F53009809F9CA /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C5581D3F1B5870BF7A2483; };
+		026139BAC7055A64933A9A38 /* TransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653AC7924F0254C08D2E8077; };
+		AB5CA0A596B957689C1EF948 /* 2.glb in Resources */ = {isa = PBXBuildFile; fileRef = F24FC61A04D15435A15B29A4; };
+		E23016785C855B2F9D895C16 /* 3.glb in Resources */ = {isa = PBXBuildFile; fileRef = 7B5E3E41E3E05784B5F6C59C; };
+		F617F1063EA8554C8421F844 /* aichat.glb in Resources */ = {isa = PBXBuildFile; fileRef = 0C0DB29C076655E2B5A06894; };
+		2C48AF2D23DC5372BA3E8844 /* card_3d.png in Resources */ = {isa = PBXBuildFile; fileRef = 48D738E6ED6F55DBA5D6D34A; };
+		3E2E4AE85EA055619895F626 /* credit_card.glb in Resources */ = {isa = PBXBuildFile; fileRef = 343AA38D77125D7090AB45B3; };
+		251E33797820500F872735CF /* hero_3d.png in Resources */ = {isa = PBXBuildFile; fileRef = 219B22937E9959C39B0A4BAC; };
+		BF4354F452925D3089D30150 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9707AE97AE51E1A282C187; };
+		EBFC34FCB4E9556F982FC836 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 3D1BA375692E5509BC5C75FB; };
+		942E7A3CA54F516DB6154852 /* logotext.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B1F6F77015F5E019C1F5272; };
+		E144DB0126BA5B02B4C63B31 /* onboarding_chart.png in Resources */ = {isa = PBXBuildFile; fileRef = B8B7722A4963553AA5A04169; };
+		56F4ACD2B2A959F8B75F2EED /* onboarding_robot.png in Resources */ = {isa = PBXBuildFile; fileRef = 643C2698CEB4513C9A94CB0F; };
+		00EF2B0E69655D5A805AB41D /* onboarding_wallet.png in Resources */ = {isa = PBXBuildFile; fileRef = 7FBC563BD03B5088AC622AD2; };
+		D04FC86754845C3F8E009993 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C6EEAC96C31457059AD7CA3D; };
+		AF5FFAC42CF35F74BAF384C7 /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = 2662A79AEE13522D83BB8286; };
+		0D74A01C0AC25748944618D7 /* splash_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D37C68A4810D5F9DB6456149; };
+		082A58910ACF5674900DC8E5 /* wallet.glb in Resources */ = {isa = PBXBuildFile; fileRef = 92F713E32BDF5C898783F97E; };
+		29810C3EBFDF5386A6D990BF /* welcome.glb in Resources */ = {isa = PBXBuildFile; fileRef = 32EE496DE3805A2D840DFD67; };
+		295FD0C7B4C054B3B7326C14 /* welcome_card.png in Resources */ = {isa = PBXBuildFile; fileRef = F8E2B90D46F5568FA1EA3D9D; };
+		DE1F59E41E175E108582A44F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 069140F89FE05218BF6AC2ED; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		C89C389305FE574BA77602B1 /* MonassistNative.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = MonassistNative.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC1E3D152B8050798ECAA563 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		964E55635408531FBA74EE2F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0062817BE3BC5628BD2C77D9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		2488AAD4751A568DAA0C87C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		AF150AA91EBF57918EDE17CB /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
+		4BD7E182270A58F98B3EE9DA /* Observation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Observation.framework; path = System/Library/Frameworks/Observation.framework; sourceTree = SDKROOT; };
+		C9A83E8FC31C5DDEA440382C /* MonassistNativeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MonassistNativeApp.swift"; sourceTree = "<group>"; };
+		DF6E864C53E75CA6B0CC0BA1 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryModel.swift"; sourceTree = "<group>"; };
+		DAF1145A0F71582AB30A24F5 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionModel.swift"; sourceTree = "<group>"; };
+		EC8AFE4B7D825BFF8CF0EF2B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserModel.swift"; sourceTree = "<group>"; };
+		5B5E7CC8FA4C536F837DC457 /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AIService.swift"; sourceTree = "<group>"; };
+		901C21DD13AB5546849B9772 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "APIService.swift"; sourceTree = "<group>"; };
+		D3403A6DEFBC537BB6B2E054 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthService.swift"; sourceTree = "<group>"; };
+		D833EDD918D950A290B1F4F4 /* CategoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryService.swift"; sourceTree = "<group>"; };
+		973122D7059E522CA3F8DD50 /* TelegramService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TelegramService.swift"; sourceTree = "<group>"; };
+		275A33C6757C5151AFACE737 /* TransactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionService.swift"; sourceTree = "<group>"; };
+		62BCBCD703775C6EA69CDB8F /* AIChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AIChatView.swift"; sourceTree = "<group>"; };
+		8F101B5BA227565EA85E00D0 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthView.swift"; sourceTree = "<group>"; };
+		660645EBCF755CC5906FB99A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeView.swift"; sourceTree = "<group>"; };
+		1ED1313BF7EC58CC95DA875C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainTabView.swift"; sourceTree = "<group>"; };
+		4E918CD210425ED1855F3C9C /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OnboardingView.swift"; sourceTree = "<group>"; };
+		0842BEF62A955D96AF5CC457 /* RootViewSwitcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootViewSwitcher.swift"; sourceTree = "<group>"; };
+		01C7644F84445422896C8B87 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView.swift"; sourceTree = "<group>"; };
+		13B1442570FE5A44A798A97F /* TransactionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionHistoryView.swift"; sourceTree = "<group>"; };
+		0D72C4643A6F5C9CA4D594EF /* AIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AIViewModel.swift"; sourceTree = "<group>"; };
+		D7C5581D3F1B5870BF7A2483 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthViewModel.swift"; sourceTree = "<group>"; };
+		653AC7924F0254C08D2E8077 /* TransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TransactionViewModel.swift"; sourceTree = "<group>"; };
+		F24FC61A04D15435A15B29A4 /* 2.glb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "2.glb"; sourceTree = "<group>"; };
+		7B5E3E41E3E05784B5F6C59C /* 3.glb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "3.glb"; sourceTree = "<group>"; };
+		0C0DB29C076655E2B5A06894 /* aichat.glb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "aichat.glb"; sourceTree = "<group>"; };
+		48D738E6ED6F55DBA5D6D34A /* card_3d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "card_3d.png"; sourceTree = "<group>"; };
+		343AA38D77125D7090AB45B3 /* credit_card.glb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "credit_card.glb"; sourceTree = "<group>"; };
+		219B22937E9959C39B0A4BAC /* hero_3d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hero_3d.png"; sourceTree = "<group>"; };
+		4F9707AE97AE51E1A282C187 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon.png"; sourceTree = "<group>"; };
+		3D1BA375692E5509BC5C75FB /* loading.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "loading.json"; sourceTree = "<group>"; };
+		7B1F6F77015F5E019C1F5272 /* logotext.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logotext.png"; sourceTree = "<group>"; };
+		B8B7722A4963553AA5A04169 /* onboarding_chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboarding_chart.png"; sourceTree = "<group>"; };
+		643C2698CEB4513C9A94CB0F /* onboarding_robot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboarding_robot.png"; sourceTree = "<group>"; };
+		7FBC563BD03B5088AC622AD2 /* onboarding_wallet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboarding_wallet.png"; sourceTree = "<group>"; };
+		C6EEAC96C31457059AD7CA3D /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus.png"; sourceTree = "<group>"; };
+		2662A79AEE13522D83BB8286 /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash.png"; sourceTree = "<group>"; };
+		D37C68A4810D5F9DB6456149 /* splash_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_logo.png"; sourceTree = "<group>"; };
+		92F713E32BDF5C898783F97E /* wallet.glb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "wallet.glb"; sourceTree = "<group>"; };
+		32EE496DE3805A2D840DFD67 /* welcome.glb */ = {isa = PBXFileReference; lastKnownFileType = file; path = "welcome.glb"; sourceTree = "<group>"; };
+		F8E2B90D46F5568FA1EA3D9D /* welcome_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome_card.png"; sourceTree = "<group>"; };
+		069140F89FE05218BF6AC2ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets.xcassets"; sourceTree = "<group>"; };
+		EAE1558ED3A65483935F6A9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5F0A598CF51557B488A30004 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BC9F116F991515FB6BEF640 /* Foundation.framework in Frameworks */,
+				0C5DC6A7FF5A5CCF915AA236 /* UIKit.framework in Frameworks */,
+				7CEC5DA58B445A7289D40B2B /* SwiftUI.framework in Frameworks */,
+				E32E36D537945FD1AC4CCBED /* CoreData.framework in Frameworks */,
+				1A07E4B3798B5EC08472DD55 /* Combine.framework in Frameworks */,
+				D4138E3E052C5AFC8829DA11 /* Observation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E53F0F39060759EFA29CF8DF = {
+			isa = PBXGroup;
+			children = (
+				6FBDFF9BEB145EAD9F7D725F /* MonassistNative */,
+				742755949F8D59BE98B8A916 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		742755949F8D59BE98B8A916 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C89C389305FE574BA77602B1 /* MonassistNative.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FBDFF9BEB145EAD9F7D725F /* MonassistNative */ = {
+			isa = PBXGroup;
+			children = (
+				C9A83E8FC31C5DDEA440382C /* MonassistNativeApp.swift */,
+				DF6E864C53E75CA6B0CC0BA1 /* CategoryModel.swift */,
+				DAF1145A0F71582AB30A24F5 /* TransactionModel.swift */,
+				EC8AFE4B7D825BFF8CF0EF2B /* UserModel.swift */,
+				5B5E7CC8FA4C536F837DC457 /* AIService.swift */,
+				901C21DD13AB5546849B9772 /* APIService.swift */,
+				D3403A6DEFBC537BB6B2E054 /* AuthService.swift */,
+				D833EDD918D950A290B1F4F4 /* CategoryService.swift */,
+				973122D7059E522CA3F8DD50 /* TelegramService.swift */,
+				275A33C6757C5151AFACE737 /* TransactionService.swift */,
+				62BCBCD703775C6EA69CDB8F /* AIChatView.swift */,
+				8F101B5BA227565EA85E00D0 /* AuthView.swift */,
+				660645EBCF755CC5906FB99A /* HomeView.swift */,
+				1ED1313BF7EC58CC95DA875C /* MainTabView.swift */,
+				4E918CD210425ED1855F3C9C /* OnboardingView.swift */,
+				0842BEF62A955D96AF5CC457 /* RootViewSwitcher.swift */,
+				01C7644F84445422896C8B87 /* SettingsView.swift */,
+				13B1442570FE5A44A798A97F /* TransactionHistoryView.swift */,
+				0D72C4643A6F5C9CA4D594EF /* AIViewModel.swift */,
+				D7C5581D3F1B5870BF7A2483 /* AuthViewModel.swift */,
+				653AC7924F0254C08D2E8077 /* TransactionViewModel.swift */,
+				F24FC61A04D15435A15B29A4 /* 2.glb */,
+				7B5E3E41E3E05784B5F6C59C /* 3.glb */,
+				0C0DB29C076655E2B5A06894 /* aichat.glb */,
+				48D738E6ED6F55DBA5D6D34A /* card_3d.png */,
+				343AA38D77125D7090AB45B3 /* credit_card.glb */,
+				219B22937E9959C39B0A4BAC /* hero_3d.png */,
+				4F9707AE97AE51E1A282C187 /* icon.png */,
+				3D1BA375692E5509BC5C75FB /* loading.json */,
+				7B1F6F77015F5E019C1F5272 /* logotext.png */,
+				B8B7722A4963553AA5A04169 /* onboarding_chart.png */,
+				643C2698CEB4513C9A94CB0F /* onboarding_robot.png */,
+				7FBC563BD03B5088AC622AD2 /* onboarding_wallet.png */,
+				C6EEAC96C31457059AD7CA3D /* plus.png */,
+				2662A79AEE13522D83BB8286 /* splash.png */,
+				D37C68A4810D5F9DB6456149 /* splash_logo.png */,
+				92F713E32BDF5C898783F97E /* wallet.glb */,
+				32EE496DE3805A2D840DFD67 /* welcome.glb */,
+				F8E2B90D46F5568FA1EA3D9D /* welcome_card.png */,
+				069140F89FE05218BF6AC2ED /* Assets.xcassets */,
+				EAE1558ED3A65483935F6A9F /* Info.plist */,
+			);
+			name = MonassistNative;
+			path = MonassistNative;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		972C94295FE753EB9E609292 /* MonassistNative */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 59CA899851D15B688D0854B1;
+			buildPhases = (
+				D573CEC7672B5656BBDA7213 /* Sources */,
+				5F0A598CF51557B488A30004 /* Frameworks */,
+				9DAA28E5B9DA5532989EC6D2 /* Resources */,
+			);
+			buildRules = ( );
+			dependencies = ( );
+			name = MonassistNative;
+			productName = MonassistNative;
+			productReference = C89C389305FE574BA77602B1 /* MonassistNative.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C5E1236D3D045869858C4CC2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1600;
+				TargetAttributes = {
+					972C94295FE753EB9E609292 = { CreatedOnToolsVersion = 16.0; };
+				};
+			};
+			buildConfigurationList = A71AF654A6BA5C199C94A31A;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = id;
+			hasScannedForEncodings = 0;
+			knownRegions = ( en, id, Base, );
+			mainGroup = E53F0F39060759EFA29CF8DF;
+			productRefGroup = 742755949F8D59BE98B8A916 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				972C94295FE753EB9E609292 /* MonassistNative */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9DAA28E5B9DA5532989EC6D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB5CA0A596B957689C1EF948 /* 2.glb in Resources */,
+				E23016785C855B2F9D895C16 /* 3.glb in Resources */,
+				F617F1063EA8554C8421F844 /* aichat.glb in Resources */,
+				2C48AF2D23DC5372BA3E8844 /* card_3d.png in Resources */,
+				3E2E4AE85EA055619895F626 /* credit_card.glb in Resources */,
+				251E33797820500F872735CF /* hero_3d.png in Resources */,
+				BF4354F452925D3089D30150 /* icon.png in Resources */,
+				EBFC34FCB4E9556F982FC836 /* loading.json in Resources */,
+				942E7A3CA54F516DB6154852 /* logotext.png in Resources */,
+				E144DB0126BA5B02B4C63B31 /* onboarding_chart.png in Resources */,
+				56F4ACD2B2A959F8B75F2EED /* onboarding_robot.png in Resources */,
+				00EF2B0E69655D5A805AB41D /* onboarding_wallet.png in Resources */,
+				D04FC86754845C3F8E009993 /* plus.png in Resources */,
+				AF5FFAC42CF35F74BAF384C7 /* splash.png in Resources */,
+				0D74A01C0AC25748944618D7 /* splash_logo.png in Resources */,
+				082A58910ACF5674900DC8E5 /* wallet.glb in Resources */,
+				29810C3EBFDF5386A6D990BF /* welcome.glb in Resources */,
+				295FD0C7B4C054B3B7326C14 /* welcome_card.png in Resources */,
+				DE1F59E41E175E108582A44F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D573CEC7672B5656BBDA7213 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9B66C3194A2C534C9D15A1D3 /* MonassistNativeApp.swift in Sources */,
+				A3CC91196EDC530FB64D02C6 /* CategoryModel.swift in Sources */,
+				C350B3D2BD665EB9A8DAA7B5 /* TransactionModel.swift in Sources */,
+				47FD43A144A55479999B999D /* UserModel.swift in Sources */,
+				BF42A2E440CB52AD82F53E8C /* AIService.swift in Sources */,
+				B12E11D840B35402938A6038 /* APIService.swift in Sources */,
+				EA1786621DB55400B6FED5BC /* AuthService.swift in Sources */,
+				F072C896BBD3574BB9EEA34F /* CategoryService.swift in Sources */,
+				4603C9786166538FBFC5AD1D /* TelegramService.swift in Sources */,
+				55698A95A92C57D990CB14E4 /* TransactionService.swift in Sources */,
+				A7BF43DA48C9529781AF69FA /* AIChatView.swift in Sources */,
+				CEBF11D8277A5F18B4FEFDAE /* AuthView.swift in Sources */,
+				D695DCF7AA5B5F8CBCD2D96C /* HomeView.swift in Sources */,
+				5386638D5366521F96D79ECB /* MainTabView.swift in Sources */,
+				03E1FD6B5254561AA94EB74C /* OnboardingView.swift in Sources */,
+				3B421F41073B585690B20865 /* RootViewSwitcher.swift in Sources */,
+				C89A47AFB6375FECAF98F2A5 /* SettingsView.swift in Sources */,
+				C0375CB9D8385747BF1AF38A /* TransactionHistoryView.swift in Sources */,
+				E1ED5365EA355C54A960ED18 /* AIViewModel.swift in Sources */,
+				006F1113F34F53009809F9CA /* AuthViewModel.swift in Sources */,
+				026139BAC7055A64933A9A38 /* TransactionViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		E8DF777A797453FFA2617A10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ( "DEBUG=1", "$(inherited)", );
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E5A37B79B0E554BB8220A8AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7E5998E6C182592BA2696E18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = XY12345678;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "MonassistNative/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = ( "$(inherited)", "@executable_path/Frameworks", );
+				PRODUCT_BUNDLE_IDENTIFIER = "com.monassist.native";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EECAED180B225022A58CA787 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = XY12345678;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "MonassistNative/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = ( "$(inherited)", "@executable_path/Frameworks", );
+				PRODUCT_BUNDLE_IDENTIFIER = "com.monassist.native";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A71AF654A6BA5C199C94A31A /* Build configuration list for PBXProject */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E8DF777A797453FFA2617A10 /* Debug */,
+				E5A37B79B0E554BB8220A8AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		59CA899851D15B688D0854B1 /* Build configuration list for PBXNativeTarget MonassistNative */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7E5998E6C182592BA2696E18 /* Debug */,
+				EECAED180B225022A58CA787 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = C5E1236D3D045869858C4CC2 /* Project object */;
+}

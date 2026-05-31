@@ -1,0 +1,64 @@
+name: Build Unsigned IPA
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build iOS Application (Unsigned)
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Select Xcode Version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
+          xcodebuild -version
+
+      - name: Generate Xcode Project
+        run: |
+          python Scripts/generate_xcodeproj.py
+
+      - name: Build and Archive (Unsigned)
+        run: |
+          xcodebuild archive \
+            -project MonassistNative.xcodeproj \
+            -scheme MonassistNative \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath build/MonassistNative.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            AD_HOC_CODE_SIGNING_ALLOWED=YES
+
+      - name: Package IPA
+        run: |
+          mkdir -p build/Payload
+          cp -r build/MonassistNative.xcarchive/Products/Applications/MonassistNative.app build/Payload/
+          cd build
+          zip -r MonassistNative.ipa Payload
+          echo "IPA size:"
+          du -sh MonassistNative.ipa
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MonassistNative-Unsigned-IPA
+          path: build/MonassistNative.ipa
+          if-no-files-found: error
