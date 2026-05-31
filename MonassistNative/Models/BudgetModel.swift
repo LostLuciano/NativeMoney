@@ -52,6 +52,10 @@ public struct BudgetModel: Codable, Identifiable, Hashable {
     }
     
     // MARK: - Computed Properties
+    public var categoryName: String? {
+        category?.name
+    }
+    
     public var progress: Double {
         guard limitAmount > 0 else { return 0 }
         let spent = self.spent ?? 0
