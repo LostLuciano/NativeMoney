@@ -55,7 +55,8 @@ jobs:
 
       - name: Generate Xcode Project
         run: |
-          python Scripts/generate_xcodeproj.py
+          cd ${{ github.workspace }}
+          python3 Scripts/generate_xcodeproj.py
 
       - name: Verify Project Settings
         run: |
@@ -103,3 +104,12 @@ jobs:
           name: MonassistNative-Unsigned-ZIP
           path: build/MonassistNative.zip
           if-no-files-found: error
+
+      - name: Build Summary
+        if: always()
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Xcode Version**: $(xcodebuild -version)" >> $GITHUB_STEP_SUMMARY
+          echo "- **iOS SDK**: $(xcrun --sdk iphoneos --show-sdk-version)" >> $GITHUB_STEP_SUMMARY
+
