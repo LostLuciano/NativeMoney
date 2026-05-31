@@ -82,7 +82,7 @@ public struct SettingsView: View {
                         }
                         .padding(24)
                         .frame(maxWidth: .infinity)
-                        .glassEffect(.regular.tint(.white.opacity(0.04)), in: RoundedRectangle(cornerRadius: 24))
+                        .glassEffect(Color.white.opacity(0.04), in: RoundedRectangle(cornerRadius: 24))
                         
                         // Settings Groups
                         settingsSection(title: "Akun & Keamanan") {
@@ -310,7 +310,7 @@ public struct SettingsView: View {
                                     .tracking(8)
                                     .foregroundStyle(.white)
                                     .padding(20)
-                                    .glassEffect(.regular.tint(.blue.opacity(0.1)), in: RoundedRectangle(cornerRadius: 16))
+                                    .glassEffect(Color.blue.opacity(0.1), in: RoundedRectangle(cornerRadius: 16))
                             }
                             
                             if authVM.currentUser?.isTelegramConnected == true {

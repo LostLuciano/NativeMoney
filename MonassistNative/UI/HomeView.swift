@@ -83,7 +83,7 @@ public struct HomeView: View {
                                     endPoint: .bottomTrailing
                                 ))
                         }
-                        .glassEffect(.regular.tint(.white.opacity(0.08)), in: RoundedRectangle(cornerRadius: 24))
+                        .glassEffect(Color.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 24))
                         .shadow(color: .blue.opacity(0.15), radius: 20, y: 10)
                         
                         // 2. Rapid Actions Panel

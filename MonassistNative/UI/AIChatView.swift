@@ -35,7 +35,7 @@ public struct AIChatView: View {
                                         .foregroundStyle(.white)
                                         .padding(12)
                                         .frame(maxWidth: 240)
-                                        .glassEffect(.regular.tint(.purple.opacity(0.15)), in: RoundedRectangle(cornerRadius: 14))
+                                        .glassEffect(Color.purple.opacity(0.15), in: RoundedRectangle(cornerRadius: 14))
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -247,8 +247,8 @@ struct ChatBubbleView: View {
                 .padding(.vertical, 12)
                 .glassEffect(
                     message.isUser
-                        ? .regular.tint(.blue.opacity(0.2))
-                        : .regular.tint(.white.opacity(0.04)),
+                        ? Color.blue.opacity(0.2)
+                        : Color.white.opacity(0.04),
                     in: RoundedRectangle(cornerRadius: 18)
                 )
             

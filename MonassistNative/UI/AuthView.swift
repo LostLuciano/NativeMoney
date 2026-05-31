@@ -222,7 +222,7 @@ public struct AuthView: View {
                     }
                     .padding(24)
                     // High-quality outer glass card representing the auth panel
-                    .glassEffect(.regular.tint(.white.opacity(0.05)), in: RoundedRectangle(cornerRadius: 32))
+                    .glassEffect(Color.white.opacity(0.05), in: RoundedRectangle(cornerRadius: 32))
                     .padding(.horizontal, 20)
                     
                     // Auxiliary login options
