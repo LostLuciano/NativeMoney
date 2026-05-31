@@ -18,7 +18,7 @@ public struct LiquidGlassEffect: ViewModifier {
         } else {
             // Liquid Glass effect (iOS 26+)
             content
-                .background(.glassEffect(displayMode: .always))
+                .background(.ultraThinMaterial)
                 .cornerRadius(cornerRadius)
         }
     }
@@ -65,7 +65,7 @@ public struct LiquidGlassCard<Content: View>: View {
                     .fill(ColorTokens.cardBackground)
             } else {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .fill(.glassEffect(displayMode: .always))
+                    .fill(.ultraThinMaterial)
             }
             
             // Border
@@ -264,7 +264,7 @@ public struct LiquidGlassSheet<Content: View>: View {
             ColorTokens.cardBackground :
             Color(UIColor(red: 0.12, green: 0.12, blue: 0.15, alpha: 0.95))
         )
-        .cornerRadius(cornerRadius, corners: [.topLeft, .topRight])
+        .cornerRadius(cornerRadius)
     }
 }
 

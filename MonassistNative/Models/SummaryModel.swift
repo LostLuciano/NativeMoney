@@ -1,7 +1,7 @@
 import Foundation
 
 public struct MonthlySummaryModel: Codable, Identifiable {
-    public let id = UUID()
+    public let id: String
     public let month: Int
     public let year: Int
     public let totalIncome: Double
@@ -23,6 +23,7 @@ public struct MonthlySummaryModel: Codable, Identifiable {
         totalExpense: Double,
         netBalance: Double
     ) {
+        self.id = "\(year)-\(month)"
         self.month = month
         self.year = year
         self.totalIncome = totalIncome
@@ -88,13 +89,14 @@ public struct CategorySummaryModel: Codable, Identifiable {
 }
 
 public struct TrendDataModel: Codable, Identifiable {
-    public let id = UUID()
+    public let id: String
     public let date: String
     public let income: Double
     public let expense: Double
     public let balance: Double
     
     public init(date: String, income: Double, expense: Double, balance: Double) {
+        self.id = date
         self.date = date
         self.income = income
         self.expense = expense
