@@ -31,17 +31,22 @@ public struct CustomNavbar: View {
         VStack(spacing: 0) {
             Spacer()
             
-            // Floating Navbar
+            // Floating Navbar with Premium Gradient
             HStack(spacing: 0) {
                 ForEach(tabs, id: \.id) { tab in
                     ZStack {
-                        // Active bubble background
+                        // Active bubble background with glow
                         if selectedTab == tab.id {
                             RoundedRectangle(cornerRadius: 16)
                                 .fill(
-                                    reduceTransparency ?
-                                    ColorTokens.primaryGreen :
-                                    Color(UIColor(red: 0.15, green: 0.45, blue: 0.35, alpha: 0.3))
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            ColorTokens.neonGreen.opacity(0.3),
+                                            ColorTokens.primaryGreen.opacity(0.2)
+                                        ]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
                                 )
                                 .matchedGeometryEffect(id: "activeTab", in: namespace)
                         }

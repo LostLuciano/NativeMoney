@@ -8,7 +8,15 @@ public struct AnalysisScreen: View {
     
     public var body: some View {
         ZStack {
-            ColorTokens.darkBackground.ignoresSafeArea()
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 0.05, green: 0.05, blue: 0.15),
+                    Color(red: 0.08, green: 0.08, blue: 0.2)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Header

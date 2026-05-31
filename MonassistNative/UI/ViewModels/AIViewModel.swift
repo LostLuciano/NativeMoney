@@ -121,4 +121,19 @@ public class AIViewModel: ObservableObject {
         
         isLoading = false
     }
+    
+    public func generateTransaction(prompt: String) async -> [String: Any]? {
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            let response = try await AIService.shared.generateTransaction(prompt: prompt)
+            isLoading = false
+            return response
+        } catch {
+            errorMessage = error.localizedDescription
+            isLoading = false
+            return nil
+        }
+    }
 }

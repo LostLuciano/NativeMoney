@@ -30,4 +30,9 @@ public class AIService {
             fieldName: "image"
         )
     }
+    
+    public func generateTransaction(prompt: String) async throws -> [String: Any] {
+        let body: [String: Any] = ["prompt": prompt]
+        return try await api.post(endpoint: "/buatin", body: body)
+    }
 }
