@@ -346,9 +346,9 @@ def create_xcodeproj(project_root: str):
             "COPY_PHASE_STRIP": "NO",
             "ENABLE_STRICT_OBJC_MSGSEND": "YES",
             "GCC_C_LANGUAGE_STANDARD": "gnu11",
-            "IPHONEOS_DEPLOYMENT_TARGET": "17.5",
+            "IPHONEOS_DEPLOYMENT_TARGET": "26",
             "SDKROOT": "iphoneos",
-            "SWIFT_VERSION": "5.0",
+            "SWIFT_VERSION": "6.0",
             "TARGETED_DEVICE_FAMILY": '"1,2"',
         }
 
