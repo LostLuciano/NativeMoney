@@ -14,11 +14,34 @@ on:
 jobs:
   build:
     name: Build iOS Application (Unsigned)
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Show Available Xcode Versions
+        run: |
+          ls /Applications | grep Xcode || true
+
+      - name: Select Xcode 16
+        run: |
+          if [ -d "/Applications/Xcode_16.4.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_16.4.app/Contents/Developer
+          elif [ -d "/Applications/Xcode_16.3.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_16.3.app/Contents/Developer
+          elif [ -d "/Applications/Xcode_16.2.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_16.2.app/Contents/Developer
+          elif [ -d "/Applications/Xcode_16.1.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
+          elif [ -d "/Applications/Xcode_16.0.app" ]; then
+            sudo xcode-select -s /Applications/Xcode_16.0.app/Contents/Developer
+          else
+            echo "Xcode 16 not found. iOS 18 build requires Xcode 16 or newer."
+            exit 1
+          fi
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
 
       - name: Clear Xcode Cache
         run: |
@@ -30,14 +53,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Select Xcode Version
-        run: |
-          sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
-          xcodebuild -version
-
       - name: Generate Xcode Project
         run: |
           python Scripts/generate_xcodeproj.py
+
+      - name: Verify Project Settings
+        run: |
+          grep -n "IPHONEOS_DEPLOYMENT_TARGET\|SWIFT_VERSION" MonassistNative.xcodeproj/project.pbxproj || true
 
       - name: Build and Archive (Unsigned)
         run: |
@@ -52,18 +74,32 @@ jobs:
             CODE_SIGN_IDENTITY="" \
             AD_HOC_CODE_SIGNING_ALLOWED=YES
 
-      - name: Package IPA
+      - name: Package IPA and ZIP
         run: |
           mkdir -p build/Payload
           cp -r build/MonassistNative.xcarchive/Products/Applications/MonassistNative.app build/Payload/
           cd build
+          
+          # Create IPA (zip with .ipa extension)
           zip -r MonassistNative.ipa Payload
-          echo "IPA size:"
+          echo "IPA created:"
           du -sh MonassistNative.ipa
+          
+          # Create separate ZIP file
+          zip -r MonassistNative.zip Payload
+          echo "ZIP created:"
+          du -sh MonassistNative.zip
 
       - name: Upload IPA Artifact
         uses: actions/upload-artifact@v4
         with:
           name: MonassistNative-Unsigned-IPA
           path: build/MonassistNative.ipa
+          if-no-files-found: error
+
+      - name: Upload ZIP Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MonassistNative-Unsigned-ZIP
+          path: build/MonassistNative.zip
           if-no-files-found: error

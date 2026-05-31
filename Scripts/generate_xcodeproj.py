@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 generate_xcodeproj.py  –  MonassistNative Xcode Project Generator
-Generates a valid project.pbxproj + xcscheme for Xcode 26 / iOS 26 target.
+Generates a valid project.pbxproj + xcscheme for Xcode 16 or newer / iOS 18 target.
 Run from the repo root:  python3 Scripts/generate_xcodeproj.py
 """
 
@@ -363,7 +363,7 @@ def create_xcodeproj(project_root: str):
             "LD_RUNPATH_SEARCH_PATHS": '( "$(inherited)", "@executable_path/Frameworks", )',
             "PRODUCT_BUNDLE_IDENTIFIER": "\"com.monassist.native\"",
             "PRODUCT_NAME": '"$(TARGET_NAME)"',
-            "DEVELOPMENT_TEAM": "XY12345678",
+            "DEVELOPMENT_TEAM": "\"\"",
             "CODE_SIGN_IDENTITY": "\"\"",
             "CODE_SIGNING_REQUIRED": "NO",
             "CODE_SIGNING_ALLOWED": "NO",
@@ -498,4 +498,4 @@ if __name__ == "__main__":
         root = os.path.dirname(root)
     print(f"Project root: {root}")
     create_xcodeproj(root)
-    print("\nDone! Open MonassistNative.xcodeproj in Xcode 26 to build.\n")
+    print("\nDone! Open MonassistNative.xcodeproj in Xcode 16 or newer to build.\n")
