@@ -19,7 +19,8 @@ public struct AnalysisScreen: View {
                     
                     // Period Selector
                     Picker("Period", selection: $viewModel.selectedPeriod) {
-                        Text("7 Hari").tag(AnalysisViewModel.AnalysisPeriod.week)\n                        Text("30 Hari").tag(AnalysisViewModel.AnalysisPeriod.month)
+                        Text("7 Hari").tag(AnalysisViewModel.AnalysisPeriod.week)
+                        Text("30 Hari").tag(AnalysisViewModel.AnalysisPeriod.month)
                         Text("1 Tahun").tag(AnalysisViewModel.AnalysisPeriod.year)
                     }
                     .pickerStyle(.segmented)
@@ -149,7 +150,8 @@ public struct AnalysisScreen: View {
                                     
                                     LiquidGlassCard(cornerRadius: 16, padding: 16) {
                                         VStack(spacing: 12) {
-                                            // Line Chart (Placeholder)\n                                            HStack(alignment: .bottom, spacing: 4) {
+                                            // Line Chart (Placeholder)
+                                            HStack(alignment: .bottom, spacing: 4) {
                                                 ForEach(viewModel.trendData.suffix(7)) { data in
                                                     VStack(spacing: 4) {
                                                         RoundedRectangle(cornerRadius: 4)

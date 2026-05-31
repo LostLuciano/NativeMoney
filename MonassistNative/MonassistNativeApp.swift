@@ -6,7 +6,7 @@ struct MonassistNativeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            RootViewSwitcher()
+            MainTabView()
                 .environmentObject(authVM)
                 .preferredColorScheme(.dark)
         }

@@ -232,7 +232,8 @@ struct FilterSheet: View {
                                             .foregroundColor(viewModel.selectedType == type ? .white : ColorTokens.textSecondary)
                                             .frame(maxWidth: .infinity)
                                             .padding(10)
-                                            .background(viewModel.selectedType == type ? ColorTokens.primaryGreen : ColorTokens.cardBackground)\n                                            .cornerRadius(8)
+                                            .background(viewModel.selectedType == type ? ColorTokens.primaryGreen : ColorTokens.cardBackground)
+                                            .cornerRadius(8)
                                     }
                                 }
                             }
@@ -393,7 +394,8 @@ struct AddTransactionSheet: View {
                             
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 8) {
-                                    ForEach(viewModel.categories.filter { $0.type == transactionType }) { category in\n                                        Button(action: { selectedCategory = category.id }) {
+                                    ForEach(viewModel.categories.filter { $0.type == transactionType }) { category in
+                                        Button(action: { selectedCategory = category.id }) {
                                             VStack(spacing: 4) {
                                                 Image(systemName: category.icon)
                                                     .font(.system(size: 16))
