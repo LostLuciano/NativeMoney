@@ -75,14 +75,14 @@ public struct TransactionDetailScreen: View {
                         
                         // Transaction Details
                         VStack(spacing: 12) {
-                            DetailRow(
+                            TransactionDetailRow(
                                 icon: "tag.fill",
                                 label: "Kategori",
                                 value: category?.name ?? "Tidak Diketahui",
                                 color: category?.colorValue ?? ColorTokens.primaryGreen
                             )
                             
-                            DetailRow(
+                            TransactionDetailRow(
                                 icon: "calendar",
                                 label: "Tanggal",
                                 value: formatDate(transaction.transactionDate),
@@ -90,7 +90,7 @@ public struct TransactionDetailScreen: View {
                             )
                             
                             if let merchant = transaction.merchant {
-                                DetailRow(
+                                TransactionDetailRow(
                                     icon: "building.2.fill",
                                     label: "Merchant",
                                     value: merchant,
@@ -99,7 +99,7 @@ public struct TransactionDetailScreen: View {
                             }
                             
                             if let paymentMethod = transaction.paymentMethod {
-                                DetailRow(
+                                TransactionDetailRow(
                                     icon: "creditcard.fill",
                                     label: "Metode Pembayaran",
                                     value: paymentMethod.name,
@@ -107,7 +107,7 @@ public struct TransactionDetailScreen: View {
                                 )
                             }
                             
-                            DetailRow(
+                            TransactionDetailRow(
                                 icon: "doc.text.fill",
                                 label: "Deskripsi",
                                 value: transaction.title,
@@ -115,7 +115,7 @@ public struct TransactionDetailScreen: View {
                             )
                             
                             if let note = transaction.note, !note.isEmpty {
-                                DetailRow(
+                                TransactionDetailRow(
                                     icon: "note.text",
                                     label: "Catatan",
                                     value: note,
@@ -124,7 +124,7 @@ public struct TransactionDetailScreen: View {
                             }
                             
                             if let location = transaction.locationName {
-                                DetailRow(
+                                TransactionDetailRow(
                                     icon: "location.fill",
                                     label: "Lokasi",
                                     value: location,
@@ -216,7 +216,7 @@ public struct TransactionDetailScreen: View {
 }
 
 // MARK: - Detail Row Component
-struct DetailRow: View {
+struct TransactionDetailRow: View {
     let icon: String
     let label: String
     let value: String

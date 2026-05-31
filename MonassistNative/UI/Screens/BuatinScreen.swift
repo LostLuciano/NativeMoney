@@ -283,23 +283,23 @@ struct BuatinResultSheet: View {
                             
                             // Details Grid
                             VStack(spacing: 12) {
-                                DetailRow(
+                                BuatinDetailRow(
                                     label: "Kategori",
                                     value: transaction["category"] as? String ?? "-"
                                 )
                                 
-                                DetailRow(
+                                BuatinDetailRow(
                                     label: "Metode Pembayaran",
                                     value: transaction["payment_method"] as? String ?? "-"
                                 )
                                 
-                                DetailRow(
+                                BuatinDetailRow(
                                     label: "Tanggal",
                                     value: transaction["date"] as? String ?? "-"
                                 )
                                 
                                 if let note = transaction["note"] as? String, !note.isEmpty {
-                                    DetailRow(
+                                    BuatinDetailRow(
                                         label: "Catatan",
                                         value: note
                                     )
@@ -374,7 +374,7 @@ struct BuatinResultSheet: View {
     }
 }
 
-struct DetailRow: View {
+struct BuatinDetailRow: View {
     let label: String
     let value: String
     
