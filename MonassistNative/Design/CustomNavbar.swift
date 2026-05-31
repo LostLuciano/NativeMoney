@@ -3,7 +3,6 @@ import SwiftUI
 /// Custom Floating Liquid Glass Navbar dengan morphing bubble
 public struct CustomNavbar: View {
     @Environment(\.accessibilityReduceTransparency) var reduceTransparency
-    @Environment(\.safeAreaInsets) var safeAreaInsets
     
     @Binding var selectedTab: Int
     let tabs: [NavbarTab]
@@ -85,7 +84,7 @@ public struct CustomNavbar: View {
             )
             .cornerRadius(24)
             .padding(.horizontal, 16)
-            .padding(.bottom, max(safeAreaInsets.bottom, 12))
+            .padding(.bottom, 12)
         }
     }
     
@@ -160,7 +159,6 @@ public struct FloatingAIButton: View {
 /// AI Chat Popup (Floating Glass Sheet)
 public struct AIChatPopup: View {
     @Environment(\.accessibilityReduceTransparency) var reduceTransparency
-    @Environment(\.safeAreaInsets) var safeAreaInsets
     
     @Binding var isPresented: Bool
     @Binding var messages: [ChatMessage]
@@ -286,7 +284,7 @@ public struct AIChatPopup: View {
                                     }
                                 }
                                 .padding(12)
-                                .onChange(of: messages.count) { _ in
+                                .onChange(of: messages.count) {
                                     withAnimation {
                                         proxy.scrollTo(messages.last?.id)
                                     }

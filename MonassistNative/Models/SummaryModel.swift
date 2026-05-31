@@ -9,6 +9,7 @@ public struct MonthlySummaryModel: Codable, Identifiable {
     public let netBalance: Double
     
     enum CodingKeys: String, CodingKey {
+        case id
         case month
         case year
         case totalIncome = "total_income"
