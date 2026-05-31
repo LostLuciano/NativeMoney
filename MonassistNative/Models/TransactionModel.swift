@@ -3,137 +3,216 @@ import Foundation
 public struct TransactionModel: Codable, Identifiable, Hashable {
     public let id: Int
     public let userId: Int
-    public var categoryId: Int
-    public var type: String // 'income' or 'expense'
-    public var amount: Double
-    public var description: String
-    public var transactionDate: Date
-    public var receiptUrl: String?
-    public var tags: [String]?
-    public var notes: String?
-    public let createdAt: String?
-    public let updatedAt: String?
-    public var category: CategoryData?
-
+    public let type: String // "income" atau "expense"
+    public let title: String
+    public let merchant: String?
+    public let amount: Double
+    public let categoryId: Int
+    public let paymentMethodId: Int?
+    public let note: String?
+    public let transactionDate: String // ISO 8601 format
+    public let receiptImageUrl: String?
+    public let locationName: String?
+    public let latitude: Double?
+    public let longitude: Double?
+    public let isFavorite: Bool
+    public let isPinned: Bool
+    public let createdAt: String
+    public let updatedAt: String
+    
+    // Relasi (optional, dari API)
+    public let category: CategoryModel?
+    public let paymentMethod: PaymentMethodModel?
+    
     enum CodingKeys: String, CodingKey {
         case id
         case userId = "user_id"
-        case categoryId = "category_id"
         case type
+        case title
+        case merchant
         case amount
-        case description
+        case categoryId = "category_id"
+        case paymentMethodId = "payment_method_id"
+        case note
         case transactionDate = "transaction_date"
-        case receiptUrl = "receipt_url"
-        case tags
-        case notes
+        case receiptImageUrl = "receipt_image_url"
+        case locationName = "location_name"
+        case latitude
+        case longitude
+        case isFavorite = "is_favorite"
+        case isPinned = "is_pinned"
         case createdAt = "created_at"
         case updatedAt = "updated_at"
         case category
+        case paymentMethod = "payment_method"
     }
-
-    public init(id: Int, userId: Int, categoryId: Int, type: String, amount: Double, description: String, transactionDate: Date, receiptUrl: String? = nil, tags: [String]? = nil, notes: String? = nil, createdAt: String? = nil, updatedAt: String? = nil, category: CategoryData? = nil) {
+    
+    public init(
+        id: Int,
+        userId: Int,
+        type: String,
+        title: String,
+        merchant: String? = nil,
+        amount: Double,
+        categoryId: Int,
+        paymentMethodId: Int? = nil,
+        note: String? = nil,
+        transactionDate: String,
+        receiptImageUrl: String? = nil,
+        locationName: String? = nil,
+        latitude: Double? = nil,
+        longitude: Double? = nil,
+        isFavorite: Bool = false,
+        isPinned: Bool = false,
+        createdAt: String,
+        updatedAt: String,
+        category: CategoryModel? = nil,
+        paymentMethod: PaymentMethodModel? = nil
+    ) {
         self.id = id
         self.userId = userId
-        self.categoryId = categoryId
         self.type = type
+        self.title = title
+        self.merchant = merchant
         self.amount = amount
-        self.description = description
+        self.categoryId = categoryId
+        self.paymentMethodId = paymentMethodId
+        self.note = note
         self.transactionDate = transactionDate
-        self.receiptUrl = receiptUrl
-        self.tags = tags
-        self.notes = notes
+        self.receiptImageUrl = receiptImageUrl
+        self.locationName = locationName
+        self.latitude = latitude
+        self.longitude = longitude
+        self.isFavorite = isFavorite
+        self.isPinned = isPinned
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.category = category
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        // Handle id as Int or String
-        if let idInt = try? container.decode(Int.self, forKey: .id) {
-            self.id = idInt
-        } else if let idStr = try? container.decode(String.self, forKey: .id), let idInt = Int(idStr) {
-            self.id = idInt
-        } else {
-            throw DecodingError.typeMismatch(Int.self, DecodingError.Context(codingPath: container.codingPath + [CodingKeys.id], debugDescription: "Expected Int or convertible String for id"))
-        }
-
-        // Handle userId as Int or String
-        if let userInt = try? container.decode(Int.self, forKey: .userId) {
-            self.userId = userInt
-        } else if let userStr = try? container.decode(String.self, forKey: .userId), let userInt = Int(userStr) {
-            self.userId = userInt
-        } else {
-            self.userId = 0
-        }
-
-        // Handle categoryId as Int or String
-        if let catInt = try? container.decode(Int.self, forKey: .categoryId) {
-            self.categoryId = catInt
-        } else if let catStr = try? container.decode(String.self, forKey: .categoryId), let catInt = Int(catStr) {
-            self.categoryId = catInt
-        } else {
-            self.categoryId = 0
-        }
-
-        self.type = try container.decode(String.self, forKey: .type)
-        
-        // Handle amount dynamically
-        if let amountDouble = try? container.decode(Double.self, forKey: .amount) {
-            self.amount = amountDouble
-        } else if let amountStr = try? container.decode(String.self, forKey: .amount), let amountDouble = Double(amountStr) {
-            self.amount = amountDouble
-        } else {
-            self.amount = 0.0
-        }
-
-        self.description = try container.decodeIfPresent(String.self, forKey: .description) ?? ""
-        
-        // Handle transactionDate or date fallbacks
-        let dateString: String
-        if let directDate = try? container.decode(String.self, forKey: .transactionDate) {
-            dateString = directDate
-        } else {
-            // Try to decode from raw JSON if "date" key exists (without CodingKey)
-            dateString = ""
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        if let parsedDate = formatter.date(from: dateString) {
-            self.transactionDate = parsedDate
-        } else {
-            // ISO8601 parsing fallback
-            let isoFormatter = ISO8601DateFormatter()
-            self.transactionDate = isoFormatter.date(from: dateString) ?? Date()
-        }
-
-        self.receiptUrl = try container.decodeIfPresent(String.self, forKey: .receiptUrl)
-        self.tags = try container.decodeIfPresent([String].self, forKey: .tags)
-        self.notes = try container.decodeIfPresent(String.self, forKey: .notes)
-        self.createdAt = try container.decodeIfPresent(String.self, forKey: .createdAt)
-        self.updatedAt = try container.decodeIfPresent(String.self, forKey: .updatedAt)
-        self.category = try container.decodeIfPresent(CategoryData.self, forKey: .category)
+        self.paymentMethod = paymentMethod
     }
     
+    // MARK: - Computed Properties
     public var isIncome: Bool {
-        return type == "income"
+        type.lowercased() == "income"
     }
     
     public var isExpense: Bool {
-        return type == "expense"
+        type.lowercased() == "expense"
     }
     
-    public var formattedAmount: String {
-        let prefix = isIncome ? "+" : "-"
-        let numberFormatter = NumberFormatter()
-        numberFormatter.groupingSeparator = "."
-        numberFormatter.decimalSeparator = ","
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.maximumFractionDigits = 0
+    public var displayAmount: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = "IDR"
+        formatter.minimumFractionDigits = 0
+        return formatter.string(from: NSNumber(value: amount)) ?? "Rp \(Int(amount))"
+    }
+    
+    public var displayDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
         
-        let amountString = numberFormatter.string(from: NSNumber(value: amount)) ?? "\(Int(amount))"
-        return "\(prefix) Rp \(amountString)"
+        if let date = formatter.date(from: transactionDate) {
+            let displayFormatter = DateFormatter()
+            displayFormatter.dateStyle = .medium
+            displayFormatter.timeStyle = .short
+            return displayFormatter.string(from: date)
+        }
+        return transactionDate
+    }
+    
+    public var displayTime: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
+        
+        if let date = formatter.date(from: transactionDate) {
+            let displayFormatter = DateFormatter()
+            displayFormatter.timeStyle = .short
+            return displayFormatter.string(from: date)
+        }
+        return ""
+    }
+    
+    public var displayDateOnly: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
+        
+        if let date = formatter.date(from: transactionDate) {
+            let displayFormatter = DateFormatter()
+            displayFormatter.dateStyle = .medium
+            return displayFormatter.string(from: date)
+        }
+        return transactionDate
+    }
+}
+
+// MARK: - Request Models
+public struct CreateTransactionRequest: Codable {
+    public let type: String
+    public let title: String
+    public let merchant: String?
+    public let amount: Double
+    public let categoryId: Int
+    public let paymentMethodId: Int?
+    public let note: String?
+    public let transactionDate: String
+    public let locationName: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case type
+        case title
+        case merchant
+        case amount
+        case categoryId = "category_id"
+        case paymentMethodId = "payment_method_id"
+        case note
+        case transactionDate = "transaction_date"
+        case locationName = "location_name"
+    }
+    
+    public init(
+        type: String,
+        title: String,
+        merchant: String? = nil,
+        amount: Double,
+        categoryId: Int,
+        paymentMethodId: Int? = nil,
+        note: String? = nil,
+        transactionDate: String,
+        locationName: String? = nil
+    ) {
+        self.type = type
+        self.title = title
+        self.merchant = merchant
+        self.amount = amount
+        self.categoryId = categoryId
+        self.paymentMethodId = paymentMethodId
+        self.note = note
+        self.transactionDate = transactionDate
+        self.locationName = locationName
+    }
+}
+
+public struct UpdateTransactionRequest: Codable {
+    public let type: String?
+    public let title: String?
+    public let merchant: String?
+    public let amount: Double?
+    public let categoryId: Int?
+    public let paymentMethodId: Int?
+    public let note: String?
+    public let transactionDate: String?
+    public let locationName: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case type
+        case title
+        case merchant
+        case amount
+        case categoryId = "category_id"
+        case paymentMethodId = "payment_method_id"
+        case note
+        case transactionDate = "transaction_date"
+        case locationName = "location_name"
     }
 }

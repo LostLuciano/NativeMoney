@@ -28,9 +28,17 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Diperlukan untuk memindai struk belanja</string>
+	<string>Aplikasi membutuhkan kamera untuk memindai struk transaksi.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Diperlukan untuk memilih gambar struk dari galeri</string>
+	<string>Aplikasi membutuhkan akses galeri untuk memilih lampiran struk.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Aplikasi membutuhkan mikrofon untuk mencatat transaksi melalui suara.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Aplikasi membutuhkan pengenalan suara untuk mengubah ucapan menjadi data transaksi.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Aplikasi menggunakan Face ID untuk menjaga keamanan data keuangan.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Aplikasi menggunakan lokasi untuk menandai tempat transaksi jika diizinkan.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

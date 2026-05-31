@@ -1,17 +1,16 @@
 import Foundation
+import SwiftUI
 
 public struct CategoryModel: Codable, Identifiable, Hashable {
     public let id: Int
     public let userId: Int
-    public var name: String
-    public var icon: String?
-    public var color: String?
-    public var type: String // 'income' or 'expense'
-    public var budgetLimit: Double?
-    public var description: String?
+    public let name: String
+    public let icon: String
+    public let color: String // Hex color
+    public let type: String // "income" atau "expense"
     public let createdAt: String?
     public let updatedAt: String?
-
+    
     enum CodingKeys: String, CodingKey {
         case id
         case userId = "user_id"
@@ -19,96 +18,117 @@ public struct CategoryModel: Codable, Identifiable, Hashable {
         case icon
         case color
         case type
-        case budgetLimit = "budget_limit"
-        case description
         case createdAt = "created_at"
         case updatedAt = "updated_at"
     }
-
-    public init(id: Int, userId: Int, name: String, icon: String? = nil, color: String? = nil, type: String = "expense", budgetLimit: Double? = nil, description: String? = nil, createdAt: String? = nil, updatedAt: String? = nil) {
+    
+    public init(
+        id: Int,
+        userId: Int,
+        name: String,
+        icon: String,
+        color: String,
+        type: String,
+        createdAt: String? = nil,
+        updatedAt: String? = nil
+    ) {
         self.id = id
         self.userId = userId
         self.name = name
         self.icon = icon
         self.color = color
         self.type = type
-        self.budgetLimit = budgetLimit
-        self.description = description
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        // Handle id as Int or String
-        if let idInt = try? container.decode(Int.self, forKey: .id) {
-            self.id = idInt
-        } else if let idStr = try? container.decode(String.self, forKey: .id), let idInt = Int(idStr) {
-            self.id = idInt
-        } else {
-            throw DecodingError.typeMismatch(Int.self, DecodingError.Context(codingPath: container.codingPath + [CodingKeys.id], debugDescription: "Expected Int or convertible String for id"))
-        }
-
-        // Handle userId as Int or String
-        if let userInt = try? container.decode(Int.self, forKey: .userId) {
-            self.userId = userInt
-        } else if let userStr = try? container.decode(String.self, forKey: .userId), let userInt = Int(userStr) {
-            self.userId = userInt
-        } else {
-            self.userId = 0 // Safe default
-        }
-
-        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? "Lainnya"
-        self.icon = try container.decodeIfPresent(String.self, forKey: .icon)
-        self.color = try container.decodeIfPresent(String.self, forKey: .color)
-        self.type = try container.decodeIfPresent(String.self, forKey: .type) ?? "expense"
-        
-        // Handle budgetLimit dynamically
-        if let limitDouble = try? container.decode(Double.self, forKey: .budgetLimit) {
-            self.budgetLimit = limitDouble
-        } else if let limitStr = try? container.decode(String.self, forKey: .budgetLimit) {
-            self.budgetLimit = Double(limitStr)
-        } else {
-            self.budgetLimit = nil
-        }
-
-        self.description = try container.decodeIfPresent(String.self, forKey: .description)
-        self.createdAt = try container.decodeIfPresent(String.self, forKey: .createdAt)
-        self.updatedAt = try container.decodeIfPresent(String.self, forKey: .updatedAt)
+    
+    // MARK: - Computed Properties
+    public var colorValue: Color {
+        Color(hex: color) ?? ColorTokens.primaryGreen
     }
     
     public var isIncome: Bool {
-        return type == "income"
+        type.lowercased() == "income"
     }
     
     public var isExpense: Bool {
-        return type == "expense"
+        type.lowercased() == "expense"
     }
 }
 
-public struct CategoryData: Codable, Identifiable, Hashable {
-    public var id: Int
-    public var name: String
-    public var type: String
-
-    public init(id: Int, name: String, type: String = "expense") {
-        self.id = id
+// MARK: - Request Models
+public struct CreateCategoryRequest: Codable {
+    public let name: String
+    public let icon: String
+    public let color: String
+    public let type: String
+    
+    public init(name: String, icon: String, color: String, type: String) {
         self.name = name
+        self.icon = icon
+        self.color = color
         self.type = type
     }
+}
+
+public struct UpdateCategoryRequest: Codable {
+    public let name: String?
+    public let icon: String?
+    public let color: String?
+    public let type: String?
     
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        
-        if let idInt = try? container.decode(Int.self, forKey: .id) {
-            self.id = idInt
-        } else if let idStr = try? container.decode(String.self, forKey: .id), let idInt = Int(idStr) {
-            self.id = idInt
-        } else {
-            self.id = 0
-        }
-        self.name = try container.decodeIfPresent(String.self, forKey: .name) ?? "Lainnya"
-        self.type = try container.decodeIfPresent(String.self, forKey: .type) ?? "expense"
+    public init(name: String? = nil, icon: String? = nil, color: String? = nil, type: String? = nil) {
+        self.name = name
+        self.icon = icon
+        self.color = color
+        self.type = type
     }
+}
+
+// MARK: - Color Extension
+extension Color {
+    init?(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet(charactersIn: "#"))
+        
+        guard hex.count == 6 else { return nil }
+        
+        let scanner = Scanner(string: hex)
+        var rgb: UInt64 = 0
+        
+        guard scanner.scanHexInt64(&rgb) else { return nil }
+        
+        let red = Double((rgb >> 16) & 0xFF) / 255.0
+        let green = Double((rgb >> 8) & 0xFF) / 255.0
+        let blue = Double(rgb & 0xFF) / 255.0
+        
+        self.init(red: red, green: green, blue: blue)
+    }
+    
+    func toHex() -> String {
+        let components = self.cgColor?.components ?? [0, 0, 0, 1]
+        let red = Int(components[0] * 255)
+        let green = Int(components[1] * 255)
+        let blue = Int(components[2] * 255)
+        
+        return String(format: "#%02X%02X%02X", red, green, blue)
+    }
+}
+
+// MARK: - Default Categories
+extension CategoryModel {
+    static let defaultExpenseCategories: [CategoryModel] = [
+        CategoryModel(id: 1, userId: 0, name: "Makanan", icon: "fork.knife", color: "#FF6B6B", type: "expense"),
+        CategoryModel(id: 2, userId: 0, name: "Transportasi", icon: "car.fill", color: "#4ECDC4", type: "expense"),
+        CategoryModel(id: 3, userId: 0, name: "Hiburan", icon: "film.fill", color: "#FFE66D", type: "expense"),
+        CategoryModel(id: 4, userId: 0, name: "Belanja", icon: "bag.fill", color: "#95E1D3", type: "expense"),
+        CategoryModel(id: 5, userId: 0, name: "Kesehatan", icon: "heart.fill", color: "#F38181", type: "expense"),
+        CategoryModel(id: 6, userId: 0, name: "Utilitas", icon: "bolt.fill", color: "#AA96DA", type: "expense"),
+    ]
+    
+    static let defaultIncomeCategories: [CategoryModel] = [
+        CategoryModel(id: 7, userId: 0, name: "Gaji", icon: "banknote.fill", color: "#52B788", type: "income"),
+        CategoryModel(id: 8, userId: 0, name: "Bonus", icon: "gift.fill", color: "#FFD60A", type: "income"),
+        CategoryModel(id: 9, userId: 0, name: "Investasi", icon: "chart.line.uptrend.xyaxis", color: "#06D6A0", type: "income"),
+        CategoryModel(id: 10, userId: 0, name: "Lainnya", icon: "ellipsis.circle.fill", color: "#A8DADC", type: "income"),
+    ]
 }

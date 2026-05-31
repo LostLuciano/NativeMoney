@@ -1,200 +1,291 @@
 import Foundation
-import SwiftUI
+import Combine
 
 @MainActor
 public class TransactionViewModel: ObservableObject {
-    @Published public var transactions: [TransactionModel] = []
-    @Published public var categories: [CategoryModel] = []
-    @Published public var isLoading: Bool = false
-    @Published public var errorMessage: String?
+    @Published var transactions: [TransactionModel] = []
+    @Published var filteredTransactions: [TransactionModel] = []
+    @Published var categories: [CategoryModel] = []
+    @Published var paymentMethods: [PaymentMethodModel] = []
+    @Published var monthlySummary: MonthlySummaryModel?
     
-    // Financial Summaries
-    @Published public var totalBalance: Double = 0.0
-    @Published public var totalIncome: Double = 0.0
-    @Published public var totalExpense: Double = 0.0
+    @Published var searchText = ""
+    @Published var selectedCategory: Int?
+    @Published var selectedPaymentMethod: Int?
+    @Published var selectedType: String? // "income" atau "expense"
+    @Published var startDate: Date?
+    @Published var endDate: Date?
+    @Published var minAmount: Double?
+    @Published var maxAmount: Double?
     
-    // Statistics & Categories limits
-    @Published public var expenseByCategory: [String: Double] = [:]
+    @Published var isLoading = false
+    @Published var errorMessage: String?
     
-    public init() {
-        // Safe mock fallback initialization for initial beautiful state if offline
-        loadMockData()
-    }
+    private let apiService = APIService.shared
     
-    public func loadData() async {
-        isLoading = true
-        errorMessage = nil
-        
-        do {
-            async let txsFetch = TransactionService.shared.getTransactions()
-            async let catsFetch = CategoryService.shared.getCategories()
-            async let summaryFetch = TransactionService.shared.getUserSummary()
-            
-            let (fetchedTxs, fetchedCats, summary) = try await (txsFetch, catsFetch, summaryFetch)
-            
-            self.transactions = fetchedTxs
-            self.categories = fetchedCats
-            
-            // Extract summaries
-            if let balanceVal = summary["balance"] as? Double {
-                self.totalBalance = balanceVal
-            } else if let balanceStr = summary["balance"] as? String {
-                self.totalBalance = Double(balanceStr) ?? 0.0
-            }
-            
-            if let incomeVal = summary["income"] as? Double {
-                self.totalIncome = incomeVal
-            }
-            if let expenseVal = summary["expense"] as? Double {
-                self.totalExpense = expenseVal
-            }
-            
-            recalculateStats()
-        } catch {
-            print("TransactionViewModel: Server offline or fetch failed -> using mock profiles (\(error.localizedDescription))")
-            self.errorMessage = error.localizedDescription
-            // Keep the mock data so the app continues to display gorgeous metrics
+    public init() {}
+    
+    // MARK: - Public Methods
+    public func loadTransactions() async {
+        await MainActor.run {
+            self.isLoading = true
+            self.errorMessage = nil
         }
         
-        isLoading = false
-    }
-    
-    public func addTransaction(categoryId: Int, type: String, amount: Double, description: String, date: Date, notes: String? = nil) async -> Bool {
-        isLoading = true
-        errorMessage = nil
         do {
-            _ = try await TransactionService.shared.addTransaction(
-                categoryId: categoryId,
-                type: type,
-                amount: amount,
-                description: description,
-                date: date,
-                notes: notes
-            )
-            await loadData()
-            isLoading = false
-            return true
-        } catch {
-            self.errorMessage = error.localizedDescription
-            
-            // Add locally to mocks for interactive demo if backend offline!
-            let newTx = TransactionModel(
-                id: Int.random(in: 1000...9999),
-                userId: 1,
-                categoryId: categoryId,
-                type: type,
-                amount: amount,
-                description: description,
-                transactionDate: date,
-                notes: notes,
-                category: CategoryData(id: categoryId, name: categories.first(where: { $0.id == categoryId })?.name ?? "Lainnya", type: type)
-            )
-            self.transactions.insert(newTx, at: 0)
-            if type == "income" {
-                totalIncome += amount
-                totalBalance += amount
-            } else {
-                totalExpense += amount
-                totalBalance -= amount
-            }
-            recalculateStats()
-            isLoading = false
-            return true
-        }
-    }
-    
-    public func deleteTransaction(_ transactionId: Int) async -> Bool {
-        isLoading = true
-        errorMessage = nil
-        do {
-            _ = try await TransactionService.shared.deleteTransaction(transactionId)
-            await loadData()
-            isLoading = false
-            return true
-        } catch {
-            // Delete locally from mocks for offline testing
-            if let idx = self.transactions.firstIndex(where: { $0.id == transactionId }) {
-                let removed = self.transactions.remove(at: idx)
-                if removed.type == "income" {
-                    totalIncome -= removed.amount
-                    totalBalance -= removed.amount
-                } else {
-                    totalExpense -= removed.amount
-                    totalBalance += removed.amount
+            let response = try await apiService.get(endpoint: "/transactions")
+            if let data = response["data"] as? [[String: Any]] {
+                let jsonData = try JSONSerialization.data(withJSONObject: data)
+                let transactions = try JSONDecoder().decode([TransactionModel].self, from: jsonData)
+                await MainActor.run {
+                    self.transactions = transactions
+                    self.applyFilters()
                 }
-                recalculateStats()
             }
-            isLoading = false
-            return true
-        }
-    }
-    
-    public func addCategory(name: String, type: String, icon: String?, color: String?, budgetLimit: Double?, description: String?) async -> Bool {
-        isLoading = true
-        errorMessage = nil
-        do {
-            _ = try await CategoryService.shared.addCategory(
-                name: name,
-                type: type,
-                icon: icon,
-                color: color,
-                budgetLimit: budgetLimit,
-                description: description
-            )
-            await loadData()
-            isLoading = false
-            return true
+            
+            await MainActor.run {
+                self.isLoading = false
+            }
         } catch {
-            // Add local category mock
-            let newCat = CategoryModel(
-                id: Int.random(in: 1000...9999),
-                userId: 1,
-                name: name,
-                icon: icon ?? "creditcard",
-                color: color ?? "#EF4444",
-                type: type,
-                budgetLimit: budgetLimit,
-                description: description
-            )
-            self.categories.append(newCat)
-            isLoading = false
-            return true
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
+            }
         }
     }
     
-    private func recalculateStats() {
-        var localStats: [String: Double] = [:]
-        for tx in transactions where tx.isExpense {
-            let catName = tx.category?.name ?? "Lainnya"
-            localStats[catName, default: 0.0] += tx.amount
+    public func loadCategories() async {
+        do {
+            let response = try await apiService.get(endpoint: "/categories")
+            if let data = response["data"] as? [[String: Any]] {
+                let jsonData = try JSONSerialization.data(withJSONObject: data)
+                let categories = try JSONDecoder().decode([CategoryModel].self, from: jsonData)
+                await MainActor.run {
+                    self.categories = categories
+                }
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+            }
         }
-        self.expenseByCategory = localStats
     }
     
-    private func loadMockData() {
-        // Initial beautifully curated visual defaults
-        self.categories = [
-            CategoryModel(id: 1, userId: 1, name: "Makanan", icon: "cart.fill", color: "#F59E0B", type: "expense", budgetLimit: 1500000),
-            CategoryModel(id: 2, userId: 1, name: "Transportasi", icon: "car.fill", color: "#3B82F6", type: "expense", budgetLimit: 600000),
-            CategoryModel(id: 3, userId: 1, name: "Hiburan", icon: "gamecontroller.fill", color: "#EC4899", type: "expense", budgetLimit: 500000),
-            CategoryModel(id: 4, userId: 1, name: "Gaji Utama", icon: "briefcase.fill", color: "#10B981", type: "income"),
-            CategoryModel(id: 5, userId: 1, name: "Freelance", icon: "macbook.and.iphone", color: "#8B5CF6", type: "income"),
-            CategoryModel(id: 6, userId: 1, name: "Tagihan", icon: "bolt.fill", color: "#EF4444", type: "expense", budgetLimit: 1000000)
-        ]
+    public func loadPaymentMethods() async {
+        do {
+            let response = try await apiService.get(endpoint: "/payment-methods")
+            if let data = response["data"] as? [[String: Any]] {
+                let jsonData = try JSONSerialization.data(withJSONObject: data)
+                let methods = try JSONDecoder().decode([PaymentMethodModel].self, from: jsonData)
+                await MainActor.run {
+                    self.paymentMethods = methods
+                }
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+    
+    public func loadMonthlySummary() async {
+        do {
+            let response = try await apiService.get(endpoint: "/summary/monthly")
+            if let data = response["data"] as? [String: Any] {
+                let jsonData = try JSONSerialization.data(withJSONObject: data)
+                let summary = try JSONDecoder().decode(MonthlySummaryModel.self, from: jsonData)
+                await MainActor.run {
+                    self.monthlySummary = summary
+                }
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+    
+    public func createTransaction(
+        type: String,
+        title: String,
+        merchant: String?,
+        amount: Double,
+        categoryId: Int,
+        paymentMethodId: Int?,
+        note: String?,
+        transactionDate: String,
+        locationName: String?
+    ) async {
+        let request = CreateTransactionRequest(
+            type: type,
+            title: title,
+            merchant: merchant,
+            amount: amount,
+            categoryId: categoryId,
+            paymentMethodId: paymentMethodId,
+            note: note,
+            transactionDate: transactionDate,
+            locationName: locationName
+        )
         
-        let now = Date()
-        self.transactions = [
-            TransactionModel(id: 101, userId: 1, categoryId: 4, type: "income", amount: 8500000, description: "Gaji Bulan Mei", transactionDate: now.addingTimeInterval(-86400 * 2), category: CategoryData(id: 4, name: "Gaji Utama", type: "income")),
-            TransactionModel(id: 102, userId: 1, categoryId: 1, type: "expense", amount: 120000, description: "Makan Malam Sushi", transactionDate: now.addingTimeInterval(-3600 * 5), category: CategoryData(id: 1, name: "Makanan", type: "expense")),
-            TransactionModel(id: 103, userId: 1, categoryId: 2, type: "expense", amount: 45000, description: "Ojek Online ke Kantor", transactionDate: now.addingTimeInterval(-3600 * 12), category: CategoryData(id: 2, name: "Transportasi", type: "expense")),
-            TransactionModel(id: 104, userId: 1, categoryId: 5, type: "income", amount: 2000000, description: "Projek Landing Page", transactionDate: now.addingTimeInterval(-86400 * 4), category: CategoryData(id: 5, name: "Freelance", type: "income")),
-            TransactionModel(id: 105, userId: 1, categoryId: 6, type: "expense", amount: 350000, description: "Tagihan Listrik", transactionDate: now.addingTimeInterval(-86400 * 1), category: CategoryData(id: 6, name: "Tagihan", type: "expense")),
-            TransactionModel(id: 106, userId: 1, categoryId: 3, type: "expense", amount: 150000, description: "Tiket Bioskop", transactionDate: now.addingTimeInterval(-86400 * 3), category: CategoryData(id: 3, name: "Hiburan", type: "expense"))
-        ]
+        do {
+            let jsonData = try JSONEncoder().encode(request)
+            let body = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any] ?? [:]
+            
+            let response = try await apiService.post(endpoint: "/transactions", body: body)
+            
+            if let data = response["data"] as? [String: Any] {
+                let jsonData = try JSONSerialization.data(withJSONObject: data)
+                let transaction = try JSONDecoder().decode(TransactionModel.self, from: jsonData)
+                
+                await MainActor.run {
+                    self.transactions.insert(transaction, at: 0)
+                    self.applyFilters()
+                }
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+    
+    public func deleteTransaction(id: Int) async {
+        do {
+            _ = try await apiService.delete(endpoint: "/transactions/\(id)")
+            
+            await MainActor.run {
+                self.transactions.removeAll { $0.id == id }
+                self.applyFilters()
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+    
+    public func toggleFavorite(id: Int) async {
+        guard let index = transactions.firstIndex(where: { $0.id == id }) else { return }
         
-        self.totalIncome = 10500000
-        self.totalExpense = 665000
-        self.totalBalance = totalIncome - totalExpense
-        recalculateStats()
+        let isFavorite = transactions[index].isFavorite
+        
+        do {
+            let body: [String: Any] = ["is_favorite": !isFavorite]
+            _ = try await apiService.put(endpoint: "/transactions/\(id)", body: body)
+            
+            await MainActor.run {
+                self.transactions[index] = TransactionModel(
+                    id: self.transactions[index].id,
+                    userId: self.transactions[index].userId,
+                    type: self.transactions[index].type,
+                    title: self.transactions[index].title,
+                    merchant: self.transactions[index].merchant,
+                    amount: self.transactions[index].amount,
+                    categoryId: self.transactions[index].categoryId,
+                    paymentMethodId: self.transactions[index].paymentMethodId,
+                    note: self.transactions[index].note,
+                    transactionDate: self.transactions[index].transactionDate,
+                    receiptImageUrl: self.transactions[index].receiptImageUrl,
+                    locationName: self.transactions[index].locationName,
+                    latitude: self.transactions[index].latitude,
+                    longitude: self.transactions[index].longitude,
+                    isFavorite: !isFavorite,
+                    isPinned: self.transactions[index].isPinned,
+                    createdAt: self.transactions[index].createdAt,
+                    updatedAt: self.transactions[index].updatedAt,
+                    category: self.transactions[index].category,
+                    paymentMethod: self.transactions[index].paymentMethod
+                )
+                self.applyFilters()
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+    
+    // MARK: - Filter Methods
+    public func applyFilters() {
+        var filtered = transactions
+        
+        // Search filter
+        if !searchText.isEmpty {
+            filtered = filtered.filter { transaction in
+                transaction.title.localizedCaseInsensitiveContains(searchText) ||
+                (transaction.merchant?.localizedCaseInsensitiveContains(searchText) ?? false) ||
+                (transaction.note?.localizedCaseInsensitiveContains(searchText) ?? false)
+            }
+        }
+        
+        // Category filter
+        if let categoryId = selectedCategory {
+            filtered = filtered.filter { $0.categoryId == categoryId }
+        }
+        
+        // Payment method filter
+        if let paymentMethodId = selectedPaymentMethod {
+            filtered = filtered.filter { $0.paymentMethodId == paymentMethodId }
+        }
+        
+        // Type filter
+        if let type = selectedType {
+            filtered = filtered.filter { $0.type == type }
+        }
+        
+        // Date range filter
+        if let startDate = startDate, let endDate = endDate {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            
+            filtered = filtered.filter { transaction in
+                if let transDate = formatter.date(from: String(transaction.transactionDate.prefix(10))) {
+                    return transDate >= startDate && transDate <= endDate
+                }
+                return false
+            }
+        }
+        
+        // Amount range filter
+        if let minAmount = minAmount {
+            filtered = filtered.filter { $0.amount >= minAmount }
+        }
+        
+        if let maxAmount = maxAmount {
+            filtered = filtered.filter { $0.amount <= maxAmount }
+        }
+        
+        self.filteredTransactions = filtered.sorted { $0.transactionDate > $1.transactionDate }
+    }
+    
+    public func clearFilters() {
+        searchText = ""
+        selectedCategory = nil
+        selectedPaymentMethod = nil
+        selectedType = nil
+        startDate = nil
+        endDate = nil
+        minAmount = nil
+        maxAmount = nil
+        applyFilters()
+    }
+    
+    // MARK: - Grouping Methods
+    public func groupTransactionsByDate() -> [String: [TransactionModel]] {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        var grouped: [String: [TransactionModel]] = [:]
+        
+        for transaction in filteredTransactions {
+            let dateKey = String(transaction.transactionDate.prefix(10))
+            if grouped[dateKey] == nil {
+                grouped[dateKey] = []
+            }
+            grouped[dateKey]?.append(transaction)
+        }
+        
+        return grouped
     }
 }
