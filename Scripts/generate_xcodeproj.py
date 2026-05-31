@@ -117,7 +117,7 @@ def create_xcodeproj(project_root: str):
 
     # ── System frameworks ─────────────────────────────────────────────────────
     SYS_FW = ["Foundation", "UIKit", "SwiftUI",
-              "CoreData", "Combine", "Observation"]
+              "CoreData", "Combine"]
 
     fw_refs = {}   # name → (ref_id, bf_id)
     for fw in SYS_FW:

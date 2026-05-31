@@ -11,7 +11,6 @@
 		7CEC5DA58B445A7289D40B2B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0062817BE3BC5628BD2C77D9; };
 		E32E36D537945FD1AC4CCBED /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2488AAD4751A568DAA0C87C0; };
 		1A07E4B3798B5EC08472DD55 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF150AA91EBF57918EDE17CB; };
-		D4138E3E052C5AFC8829DA11 /* Observation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BD7E182270A58F98B3EE9DA; };
 		9B66C3194A2C534C9D15A1D3 /* MonassistNativeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9A83E8FC31C5DDEA440382C; };
 		A3CC91196EDC530FB64D02C6 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6E864C53E75CA6B0CC0BA1; };
 		C350B3D2BD665EB9A8DAA7B5 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF1145A0F71582AB30A24F5; };
@@ -62,7 +61,6 @@
 		0062817BE3BC5628BD2C77D9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		2488AAD4751A568DAA0C87C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AF150AA91EBF57918EDE17CB /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
-		4BD7E182270A58F98B3EE9DA /* Observation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Observation.framework; path = System/Library/Frameworks/Observation.framework; sourceTree = SDKROOT; };
 		C9A83E8FC31C5DDEA440382C /* MonassistNativeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MonassistNativeApp.swift"; sourceTree = "<group>"; };
 		DF6E864C53E75CA6B0CC0BA1 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/CategoryModel.swift"; sourceTree = "<group>"; };
 		DAF1145A0F71582AB30A24F5 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Models/TransactionModel.swift"; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 				7CEC5DA58B445A7289D40B2B /* SwiftUI.framework in Frameworks */,
 				E32E36D537945FD1AC4CCBED /* CoreData.framework in Frameworks */,
 				1A07E4B3798B5EC08472DD55 /* Combine.framework in Frameworks */,
-				D4138E3E052C5AFC8829DA11 /* Observation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
