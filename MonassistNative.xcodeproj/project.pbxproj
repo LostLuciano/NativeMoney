@@ -24,6 +24,7 @@
 		55698A95A92C57D990CB14E4 /* TransactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275A33C6757C5151AFACE737; };
 		A7BF43DA48C9529781AF69FA /* AIChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BCBCD703775C6EA69CDB8F; };
 		CEBF11D8277A5F18B4FEFDAE /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F101B5BA227565EA85E00D0; };
+		2FB76949D7395A02B296D674 /* GlassEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = F921BF07EBBF503B92428817; };
 		D695DCF7AA5B5F8CBCD2D96C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 660645EBCF755CC5906FB99A; };
 		5386638D5366521F96D79ECB /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ED1313BF7EC58CC95DA875C; };
 		03E1FD6B5254561AA94EB74C /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E918CD210425ED1855F3C9C; };
@@ -74,6 +75,7 @@
 		275A33C6757C5151AFACE737 /* TransactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Services/TransactionService.swift"; sourceTree = "<group>"; };
 		62BCBCD703775C6EA69CDB8F /* AIChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/AIChatView.swift"; sourceTree = "<group>"; };
 		8F101B5BA227565EA85E00D0 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/AuthView.swift"; sourceTree = "<group>"; };
+		F921BF07EBBF503B92428817 /* GlassEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/GlassEffect.swift"; sourceTree = "<group>"; };
 		660645EBCF755CC5906FB99A /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/HomeView.swift"; sourceTree = "<group>"; };
 		1ED1313BF7EC58CC95DA875C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/MainTabView.swift"; sourceTree = "<group>"; };
 		4E918CD210425ED1855F3C9C /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UI/OnboardingView.swift"; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				275A33C6757C5151AFACE737 /* TransactionService.swift */,
 				62BCBCD703775C6EA69CDB8F /* AIChatView.swift */,
 				8F101B5BA227565EA85E00D0 /* AuthView.swift */,
+				F921BF07EBBF503B92428817 /* GlassEffect.swift */,
 				660645EBCF755CC5906FB99A /* HomeView.swift */,
 				1ED1313BF7EC58CC95DA875C /* MainTabView.swift */,
 				4E918CD210425ED1855F3C9C /* OnboardingView.swift */,
@@ -277,6 +280,7 @@
 				55698A95A92C57D990CB14E4 /* TransactionService.swift in Sources */,
 				A7BF43DA48C9529781AF69FA /* AIChatView.swift in Sources */,
 				CEBF11D8277A5F18B4FEFDAE /* AuthView.swift in Sources */,
+				2FB76949D7395A02B296D674 /* GlassEffect.swift in Sources */,
 				D695DCF7AA5B5F8CBCD2D96C /* HomeView.swift in Sources */,
 				5386638D5366521F96D79ECB /* MainTabView.swift in Sources */,
 				03E1FD6B5254561AA94EB74C /* OnboardingView.swift in Sources */,

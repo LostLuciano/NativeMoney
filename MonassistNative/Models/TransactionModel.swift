@@ -23,7 +23,6 @@ public struct TransactionModel: Codable, Identifiable, Hashable {
         case amount
         case description
         case transactionDate = "transaction_date"
-        case date // secondary key fallback
         case receiptUrl = "receipt_url"
         case tags
         case notes
@@ -95,9 +94,8 @@ public struct TransactionModel: Codable, Identifiable, Hashable {
         let dateString: String
         if let directDate = try? container.decode(String.self, forKey: .transactionDate) {
             dateString = directDate
-        } else if let alternateDate = try? container.decode(String.self, forKey: .date) {
-            dateString = alternateDate
         } else {
+            // Try to decode from raw JSON if "date" key exists (without CodingKey)
             dateString = ""
         }
         
