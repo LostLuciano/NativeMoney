@@ -186,7 +186,7 @@ def create_xcodeproj(project_root: str):
             ftype = file_type(ext) if ext else "file"
             w(f"\t\t{ref_id} /* {base} */ = {{isa = PBXFileReference; "
               f"lastKnownFileType = {ftype}; "
-              f"path = \"{base}\"; "
+              f"path = \"{rel}\"; "
               f"sourceTree = \"<group>\"; }};")
         # .xcassets folder references
         for xca, (ref_id, _) in xca_refs.items():
