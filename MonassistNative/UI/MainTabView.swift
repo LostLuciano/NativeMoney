@@ -36,7 +36,6 @@ public struct MainTabView: View {
                     .tag(3)
             }
             .tabViewStyle(.sidebarAdaptable) // Adapts automatically to sidebar on iPad, regular tab bar on iPhone!
-            .tabBarMinimizeBehavior(.onScrollDown) // Automatically minimizes tab bar on scroll for large pages!
         }
     }
 }
