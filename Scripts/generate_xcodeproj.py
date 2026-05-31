@@ -85,7 +85,7 @@ def create_xcodeproj(project_root: str):
             rel = rel.lstrip("./").lstrip("/")
             ext = os.path.splitext(f)[1].lower()
 
-            if f == "Info.plist" and "/" not in rel:  # top-level only
+            if f == "Info.plist" and rel_root == ".":  # top-level only
                 plist_file = rel
             elif ext in SWIFT_EXTS:
                 swift_files.append(rel)
